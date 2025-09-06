@@ -1,0 +1,27 @@
+<div class="signup-container">
+  <h2>Sign Up</h2>
+  <form #signupForm="ngForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput placeholder="Enter name" name="name" [(ngModel)]="name" required>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Phone</mat-label>
+      <input matInput placeholder="Enter phone (e.g., +201XXXXXXXX)" name="phone" [(ngModel)]="phone" required pattern="^(?:\+?201|01)[0125][0-9]{8}$">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Enter email" name="email" [(ngModel)]="email" required type="email">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Address</mat-label>
+      <input matInput placeholder="Enter address" name="address" [(ngModel)]="address" required>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" placeholder="Enter password" name="password" [(ngModel)]="password" required>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!signupForm.valid">Sign Up</button>
+  </form>
+  <p>Already have an account? <a routerLink="/login">Login</a></p>
+</div>  
