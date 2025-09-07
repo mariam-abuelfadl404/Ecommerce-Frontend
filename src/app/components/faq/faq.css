@@ -1,0 +1,12 @@
+.faq-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+}
+mat-expansion-panel {
+  margin-bottom: 10px;
+}
+.error {
+  color: red;
+  text-align: center;
+}

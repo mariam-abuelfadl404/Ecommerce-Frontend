@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <span class="logo">E-Commerce Store</span>
+  <span class="spacer"></span>
+  <a mat-button routerLink="/products" *ngIf="authService.isLoggedIn">Products</a>
+  <a mat-button routerLink="/cart" *ngIf="authService.isLoggedIn">Cart</a>
+  <a mat-button routerLink="/checkout" *ngIf="authService.isLoggedIn">Checkout</a>
+  <a mat-button routerLink="/orders" *ngIf="authService.isLoggedIn">Orders</a>
+  <a mat-button routerLink="/contact">Contact</a>
+  <a mat-button routerLink="/faq">FAQ</a>
+  <a mat-button routerLink="/testimonials">Testimonials</a>
+  <a mat-button routerLink="/profile" *ngIf="authService.isLoggedIn">Profile</a>
+  <a mat-button routerLink="/dashboard" *ngIf="authService.isLoggedIn && authService.currentUser.role === 'admin'">Dashboard</a>
+  <button mat-button *ngIf="authService.isLoggedIn" (click)="logout()">Logout</button>
+  <a mat-button routerLink="/auth/login" *ngIf="!authService.isLoggedIn">Login</a>
+  <a mat-button routerLink="/auth/signup" *ngIf="!authService.isLoggedIn">Sign Up</a>
+</mat-toolbar>

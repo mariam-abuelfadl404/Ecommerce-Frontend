@@ -1,0 +1,36 @@
+<div class="testimonial-container">
+  <h2>Testimonials</h2>
+  <div class="testimonials-list" *ngIf="testimonials.length > 0; else noTestimonials">
+    <mat-card class="testimonial-card" *ngFor="let testimonial of testimonials">
+      <mat-card-content>
+        <p>{{ testimonial.content }}</p>
+        <p>Rating: {{ '★'.repeat(testimonial.rating) }}</p>
+        <p>By: {{ testimonial.user?.name || 'Anonymous' }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <ng-template #noTestimonials>
+    <p>No testimonials available.</p>
+  </ng-template>
+  <h3>Submit Your Testimonial</h3>
+  <form [formGroup]="testimonialForm" (ngSubmit)="onSubmit()" *ngIf="authService.isLoggedIn; else loginPrompt">
+    <mat-form-field appearance="fill">
+      <mat-label>Content</mat-label>
+      <textarea matInput formControlName="content" required></textarea>
+      <mat-error *ngIf="testimonialForm.get('content')?.hasError('required')">Content is required</mat-error>
+      <mat-error *ngIf="testimonialForm.get('content')?.hasError('minlength')">Content must be at least 10 characters</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Rating</mat-label>
+      <input matInput type="number" formControlName="rating" required>
+      <mat-error *ngIf="testimonialForm.get('rating')?.hasError('required')">Rating is required</mat-error>
+      <mat-error *ngIf="testimonialForm.get('rating')?.hasError('min') || testimonialForm.get('rating')?.hasError('max')">Rating must be between 1 and 5</mat-error>
+    </mat-form-field>
+    <button mat-button type="submit" [disabled]="testimonialForm.invalid">Submit</button>
+  </form>
+  <ng-template #loginPrompt>
+    <p>Please <a routerLink="/auth/login">log in</a> to submit a testimonial.</p>
+  </ng-template>
+  <p class="error" *ngIf="error">{{ error }}</p>
+  <p class="success" *ngIf="success">Thank you for your testimonial! It will be reviewed.</p>
+</div>

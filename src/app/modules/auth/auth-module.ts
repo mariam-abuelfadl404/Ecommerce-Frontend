@@ -1,15 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from '../../components/login/login';
-import { SignupComponent } from '../../components/signup/signup';
+// import { NgModule } from '@angular/core';
+// import { CommonModule } from '@angular/common'; // For basic directives
+// import { LoginComponent } from '../../components/login/login';
+// import { SignupComponent } from '../../components/signup/signup';
 
-const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent }
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class AuthModule {}
+// @NgModule({
+//   declarations: [LoginComponent, SignupComponent], // Declare the components
+//   imports: [CommonModule], // Add CommonModule for ngIf, ngFor, etc.
+//   exports: [LoginComponent, SignupComponent] // Export for use in routing
+// })
+// export class AuthModule {}

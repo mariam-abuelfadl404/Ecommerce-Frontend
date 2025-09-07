@@ -1,53 +1,43 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
-  private userSubject = new BehaviorSubject<any>(null);
-  public user$ = this.userSubject.asObservable();
-  private apiUrl = 'http://localhost:3000/api/auth';
+  private apiUrl = `${environment.apiUrl}/api/auth`;
+  private currentUserSubject = new BehaviorSubject<any>(null);
+  public currentUser = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      if (token) this.setUser(token);
+  constructor(private http: HttpClient, private router: Router) {
+    this.loadUser();
+  }
+
+  loadUser(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Decode token to get user data (simplified)
+      this.currentUserSubject.next({ role: 'user', id: 'decoded_id' }); // Enhance with real decoding
     }
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { email, password }).pipe(
-      tap((response: any) => {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('token', response.token);
-        }
-        this.setUser(response.token);
-      })
-    );
+    return this.http.post(`${this.apiUrl}/login`, { email, password });
   }
-
-  signup(name: string, phone: string, email: string, address: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/signup`, { name, phone, email, address, password });
-  }
+signup(name: string, phone: string, email: string, address: string, password: string): Observable<any> {
+  return this.http.post(`${this.apiUrl}/signup`, { name, phone, email, address, password });
+}
 
   logout(): void {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('token');
-    }
-    this.userSubject.next(null);
-  }
-
-  private setUser(token: string): void {
-    const decoded = JSON.parse(atob(token.split('.')[1])); // Decode JWT payload
-    this.userSubject.next({ id: decoded.id, role: decoded.role || 'user' });
+    localStorage.removeItem('token');
+    this.currentUserSubject.next(null);
+    this.router.navigate(['/auth/login']);
   }
 
   get isLoggedIn(): boolean {
-    return typeof window !== 'undefined' && !!localStorage.getItem('token');
-  }
-
-  get userRole(): string {
-    return this.userSubject.value?.role || 'user';
+    return !!localStorage.getItem('token');
   }
 }

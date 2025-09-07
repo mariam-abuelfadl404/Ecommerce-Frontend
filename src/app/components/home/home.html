@@ -1,0 +1,35 @@
+
+<app-header></app-header>
+<div class="home-container">
+  <h2>Welcome to the E-Commerce App!</h2>
+  <p *ngIf="user">Logged in as {{ user.name }} (Role: {{ user.role }})</p>
+  <p *ngIf="!user">No user data available.</p>
+</div>
+
+<!-- Hero Section with Slider -->
+<section class="hero">
+  <div class="slider">
+    <div class="slide active">
+      <h1>Discover Premium Products</h1>
+      <p>Explore our wide range of high-quality items.</p>
+    </div>
+    <div class="slide">
+      <h1>Exclusive Deals Await</h1>
+      <p>Save big on your favorite brands today!</p>
+    </div>
+    <div class="slide">
+      <h1>Shop with Confidence</h1>
+      <p>Secure and fast delivery guaranteed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- About Us Section -->
+<section class="about-us">
+  <div class="container">
+    <h2>About Us</h2>
+    <p>At E-Commerce Store, we are dedicated to providing an exceptional online shopping experience. With a curated selection of products and a commitment to customer satisfaction, we aim to be your trusted partner in retail. Our team works tirelessly to ensure quality, affordability, and reliability.</p>
+  </div>
+</section>
+
+<app-footer></app-footer>

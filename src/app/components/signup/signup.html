@@ -1,27 +1,38 @@
 <div class="signup-container">
   <h2>Sign Up</h2>
-  <form #signupForm="ngForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Name</mat-label>
-      <input matInput placeholder="Enter name" name="name" [(ngModel)]="name" required>
+      <input matInput formControlName="name" required>
+      <mat-error *ngIf="signupForm.get('name')?.hasError('required')">Name is required</mat-error>
+      <mat-error *ngIf="signupForm.get('name')?.hasError('minlength')">Name must be at least 2 characters</mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Phone</mat-label>
-      <input matInput placeholder="Enter phone (e.g., +201XXXXXXXX)" name="phone" [(ngModel)]="phone" required pattern="^(?:\+?201|01)[0125][0-9]{8}$">
+      <input matInput formControlName="phone" required>
+      <mat-error *ngIf="signupForm.get('phone')?.hasError('required')">Phone is required</mat-error>
+      <mat-error *ngIf="signupForm.get('phone')?.hasError('pattern')">Invalid Egyptian phone number</mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
-      <input matInput placeholder="Enter email" name="email" [(ngModel)]="email" required type="email">
+      <input matInput formControlName="email" required>
+      <mat-error *ngIf="signupForm.get('email')?.hasError('required')">Email is required</mat-error>
+      <mat-error *ngIf="signupForm.get('email')?.hasError('email')">Invalid email format</mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Address</mat-label>
-      <input matInput placeholder="Enter address" name="address" [(ngModel)]="address" required>
+      <input matInput formControlName="address" required>
+      <mat-error *ngIf="signupForm.get('address')?.hasError('required')">Address is required</mat-error>
+      <mat-error *ngIf="signupForm.get('address')?.hasError('minlength')">Address must be at least 5 characters</mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
-      <input matInput type="password" placeholder="Enter password" name="password" [(ngModel)]="password" required>
+      <input matInput type="password" formControlName="password" required>
+      <mat-error *ngIf="signupForm.get('password')?.hasError('required')">Password is required</mat-error>
+      <mat-error *ngIf="signupForm.get('password')?.hasError('minlength')">Password must be at least 6 characters</mat-error>
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="!signupForm.valid">Sign Up</button>
+    <button mat-button type="submit" [disabled]="signupForm.invalid">Sign Up</button>
   </form>
-  <p>Already have an account? <a routerLink="/login">Login</a></p>
-</div>  
+  <p class="error" *ngIf="error">{{ error }}</p>
+  <p>Already have an account? <a routerLink="/auth/login">Login</a></p>
+</div>

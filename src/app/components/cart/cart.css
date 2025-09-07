@@ -1,0 +1,38 @@
+.cart-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+.cart-items {
+  display: grid;
+  gap: 20px;
+}
+.cart-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  transition: box-shadow 0.2s;
+}
+.cart-item:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+mat-card-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+mat-card-content {
+  flex-grow: 1;
+}
+.cart-total {
+  margin-top: 20px;
+  text-align: right;
+}
+button {
+  margin: 0 5px;
+}
+.error {
+  color: red;
+  text-align: center;
+}

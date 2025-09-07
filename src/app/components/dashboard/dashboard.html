@@ -1,0 +1,42 @@
+<div class="dashboard-container" *ngIf="authService.isLoggedIn && authService.currentUser.role === 'admin'; else accessDenied">
+  <h2>Dashboard</h2>
+  <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+    <mat-form-field appearance="fill">
+      <mat-label>From</mat-label>
+      <input matInput type="date" formControlName="from">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>To</mat-label>
+      <input matInput type="date" formControlName="to">
+    </mat-form-field>
+    <button mat-button type="submit">Filter</button>
+  </form>
+  <div class="stats" *ngIf="stats; else loading">
+    <mat-card>
+      <mat-card-content>Total Products: {{ stats.totalProducts }}</mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>Total Orders: {{ stats.totalOrders }}</mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>Total Categories: {{ stats.totalCategories }}</mat-card-content>
+    </mat-card>
+    <mat-card>
+      <mat-card-content>Total Sales: ${{ stats.totalSales }}</mat-card-content>
+    </mat-card>
+  </div>
+  <h3>Products Sold Report</h3>
+  <div class="report" *ngIf="report.length > 0; else noReport">
+    <mat-card *ngFor="let item of report">
+      <mat-card-content>
+        <p>{{ item.productName }}: {{ item.totalSold }} sold, ${{ item.totalRevenue }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <ng-template #noReport><p>No report data available.</p></ng-template>
+  <ng-template #loading><p>Loading...</p></ng-template>
+  <p class="error" *ngIf="error">{{ error }}</p>
+</div>
+<ng-template #accessDenied>
+  <p>Access denied. Only admins can view the dashboard.</p>
+</ng-template>

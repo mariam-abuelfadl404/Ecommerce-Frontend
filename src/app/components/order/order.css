@@ -1,0 +1,23 @@
+.order-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+}
+.order-list {
+  display: grid;
+  gap: 20px;
+}
+.order-card {
+  padding: 15px;
+  transition: box-shadow 0.2s;
+}
+.order-card:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+button {
+  margin: 5px;
+}
+.error {
+  color: red;
+  text-align: center;
+}

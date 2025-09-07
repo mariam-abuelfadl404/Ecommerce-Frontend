@@ -1,0 +1,17 @@
+<div class="checkout-container" *ngIf="!success; else orderPlaced">
+  <h2>Checkout</h2>
+  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Shipping Address</mat-label>
+      <input matInput formControlName="shippingAddress" placeholder="e.g., Cairo, Egypt" required>
+      <mat-error *ngIf="checkoutForm.get('shippingAddress')?.hasError('required')">Address is required</mat-error>
+      <mat-error *ngIf="checkoutForm.get('shippingAddress')?.hasError('minlength')">Address must be at least 5 characters</mat-error>
+    </mat-form-field>
+    <button mat-button type="submit" [disabled]="checkoutForm.invalid">Place Order</button>
+  </form>
+  <p class="error" *ngIf="error">{{ error }}</p>
+</div>
+<ng-template #orderPlaced>
+  <p>Thank you for your order! It will be delivered to your address.</p>
+  <button mat-button (click)="router.navigate(['/orders'])">View Orders</button> <!-- Changed to orders page -->
+</ng-template>

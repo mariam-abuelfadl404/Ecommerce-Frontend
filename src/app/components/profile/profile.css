@@ -1,5 +1,5 @@
-.login-container {
-  max-width: 400px;
+.profile-container {
+  max-width: 500px;
   margin: 50px auto;
   padding: 20px;
 }
@@ -12,5 +12,9 @@ button {
 }
 .error {
   color: red;
+  text-align: center;
+}
+.success {
+  color: green;
   text-align: center;
 }

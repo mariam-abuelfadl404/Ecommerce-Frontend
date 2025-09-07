@@ -1,0 +1,14 @@
+<div class="product-detail-container" *ngIf="product; else loading">
+  <mat-card>
+    <img mat-card-image [src]="product.photos?.[0] || 'https://via.placeholder.com/300'" alt="{{ product.name }}">
+    <mat-card-content>
+      <h2>{{ product.name }}</h2>
+      <p>{{ product.description }}</p>
+      <p>Price: ${{ product.price }}</p>
+      <p>Stock: {{ product.stock }}</p>
+      <button mat-button (click)="addToCart()" [disabled]="product.stock === 0">Add to Cart</button>
+    </mat-card-content>
+  </mat-card>
+  <ng-template #loading><p>Loading...</p></ng-template>
+  <p class="error" *ngIf="error">{{ error }}</p>
+</div>

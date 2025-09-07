@@ -1,15 +1,19 @@
 <div class="login-container">
   <h2>Login</h2>
-  <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
-      <input matInput placeholder="Enter email" name="email" [(ngModel)]="email" required>
+      <input matInput formControlName="email" required>
+      <mat-error *ngIf="loginForm.get('email')?.hasError('required')">Email is required</mat-error>
+      <mat-error *ngIf="loginForm.get('email')?.hasError('email')">Invalid email format</mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
-      <input matInput type="password" placeholder="Enter password" name="password" [(ngModel)]="password" required>
+      <input matInput type="password" formControlName="password" required>
+      <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required</mat-error>
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+    <button mat-button type="submit" [disabled]="loginForm.invalid">Login</button>
   </form>
-  <p>Not registered? <a routerLink="/signup">Sign up</a></p>
+  <p class="error" *ngIf="error">{{ error }}</p>
+  <p>Don't have an account? <a routerLink="/auth/signup">Sign up</a></p>
 </div>

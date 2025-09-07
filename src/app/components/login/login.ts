@@ -1,35 +1,46 @@
 import { Component } from '@angular/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth';
-import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    RouterModule,
-    FormsModule
-  ],
+  imports: [CommonModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
 export class LoginComponent {
-  email = '';
-  password = '';
+  loginForm: FormGroup;
+  error: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]]
+    });
+  }
 
   onSubmit(): void {
-    this.authService.login(this.email, this.password).subscribe({
-      next: () => this.router.navigate(['']),
-      error: (err) => console.error('Login failed:', err)
+    if (this.loginForm.invalid) {
+      this.error = 'Please fill all fields correctly';
+      return;
+    }
+
+    const { email, password } = this.loginForm.value;
+    this.authService.login(email, password).subscribe({
+      next: (response) => {
+        localStorage.setItem('token', response.token);
+        this.authService.loadUser();
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.error = err.error.message || 'Login failed';
+        console.error(err);
+      }
     });
   }
 }

@@ -1,0 +1,21 @@
+<div class="order-container" *ngIf="!error; else errorMessage">
+  <h2>Your Orders</h2>
+  <div class="order-list" *ngIf="orders.length > 0; else noOrders">
+    <mat-card class="order-card" *ngFor="let order of orders">
+      <mat-card-content>
+        <h3>Order #{{ order._id }}</h3>
+        <p>Status: {{ order.status }}</p>
+        <p>Total: ${{ order.total }}</p>
+        <p>Shipping: {{ order.shippingAddress }}</p>
+        <button mat-button (click)="getOrderDetails(order._id)">View Details</button>
+        <button mat-button *ngIf="isRefundEligible(order)" (click)="requestRefund(order._id)">Request Refund</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <ng-template #noOrders>
+    <p>No orders found.</p>
+  </ng-template>
+</div>
+<ng-template #errorMessage>
+  <p class="error">{{ error }}</p>
+</ng-template>
